@@ -1,0 +1,53 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>绩效</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+var Y = <go>.Y</go>;
+var M = <go>.M</go>;
+var D = <go>.D</go>;
+</script>
+<div ng-controller="ctrl.jx" class="main-box">
+    <div class="panel panel-warning">
+        <div class="panel-heading">周绩效<span class="" ng-cloak>【{{vm.qian}} 到 {{vm.hou}}】</span><a href="/jx/xx" style="margin-left:20px;">看看大家的</a><span style="float:right;">（想查看之前月份的数据可以在url后面加上 ?m=月份）</span></div>
+        <div class="panel-body jx-box" my-jx data-inited="vm.inited" data-jxday="{{vm.ccJxday}}">
+            <ul class="nav nav-tabs">
+                <li ng-repeat="day in vm.days" ng-cloak ng-class="{init:day.active, shangban:day.shangban}" title="{{day.date}}" data-y="{{day.y}}" data-m="{{day.m}}" data-d="{{day.d}}"><a href="#day-{{day.y}}-{{day.m}}-{{day.d}}" data-toggle="tab">{{day.num}}</a></li>
+            </ul>
+            <div class="tab-content">
+                <table class="table" ng-if="vm.ccJxday.length>0">
+                    <tr>
+                        <th>工作内容</th>
+                        <th style="width:150px;">日期（提交）</th>
+                        <th style="width:75px;">开始时间</th>
+                        <th style="width:75px;">结束时间</th>
+                        <th style="width:75px;">时长</th>
+                        <th style="width:60px;">完成度</th>
+                        <th style="width:50px;">分数</th>
+                    </tr>
+                    <tr ng-repeat="work in vm.ccJxday" ng-cloak>
+                        <td title="{{work.id}}">{{work.content}}</td>
+                        <td>{{work.date}}</td>
+                        <td>{{work.start}}</td>
+                        <td>{{work.end}}</td>
+                        <td>{{work.duration}}</td>
+                        <td>{{work.status}}%</td>
+                        <td>{{work.score}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">月常规绩效</div>
+        <div class="panel-body">
+            <table class="table" ng-cloak ng-if="vm.mjxs.length>0">
+                <tr><th style="width:150px;">日期</th><th>绩效内容</th><th style="width:50px;">分数</th></tr>
+                <tr ng-repeat="mjx in vm.mjxs"><td>{{mjx.date}}</td><td>{{mjx.content}}</td><td>{{mjx.score}}</td></tr>
+            </table>
+        </div>
+        </div>
+    </div>
+</div>
+<go>end</go>

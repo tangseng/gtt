@@ -1,0 +1,34 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>绩效</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var Persons = <go>.Persons</go>;
+    var Y = <go>.Y</go>;
+    var M = <go>.M</go>;
+    var D = <go>.D</go>;
+</script>
+<div ng-controller="ctrl.jxa" class="panel panel-default main-box">
+    <div class="panel-heading">少年，不说了，自己看吧...</div>
+    <div class="panel-body">
+        <input class="form-control" style="width:120px;" ng-model="vm.date" my-date data-min="all"/>
+        <div class="jxa-body" ng-cloak>
+            <div ng-repeat="item in vm.all" class="flex">
+                <div class="jxa-name" style="color:{{item['person']['color']}}">{{item['person']['name']}}</div>
+                <div class="flex-one">
+                    <table>
+                        <tr ng-repeat="jx in item.jx">
+                            <td>{{jx.content}}</td>
+                            <td style="width:80px;">{{jx.start}}</td>
+                            <td style="width:80px;">{{jx.end}}</td>
+                            <td style="width:50px;">{{jx.status}}%</td>
+                            <td style="width:150px;">{{jx.time}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<go>end</go>

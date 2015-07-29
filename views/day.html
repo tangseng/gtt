@@ -1,0 +1,363 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>今日</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+var Today = {"y" : "<go>.Y</go>", "m" : "<go>.M</go>", "d" : "<go>.D</go>"};
+var Day = <go>.Day</go>;
+</script>
+<div ng-controller="ctrl.base" class="main-box">
+
+<div class="panel panel-info" ng-controller="ctrl.day">
+    <div class="panel-heading">今天是<span class="day-span" ng-cloak>{{vm.y}}</span>年<span class="day-span" ng-cloak>{{vm.m}}</span>月<span class="day-span" ng-cloak>{{vm.d}}</span>号。少年，加油吧！</div>
+    <div class="panel-body">
+        <div class="flex">
+            <div class="flex-one">
+                <table  class="table">
+                    <tr>
+                        <th style="width:50%">工作内容</th>
+                        <th>开始</th>
+                        <th>结束</th>
+                        <th style="width:13%">时长</th>
+                        <th>完成度</th>
+                    </tr>
+                    <tr ng-repeat="work in vm.works" ng-cloak>
+                        <td title="{{work.id}}">{{work.content}}</td>
+                        <td>{{work.start}}</td>
+                        <td>{{work.end}}</td>
+                        <td>{{work.duration}}</td>
+                        <td>{{work.status}}%</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="day-form">
+                <select class="form-control" ng-model="vm.ccwork.planId">
+                    <option value="0">计划任务</option>
+                    <option ng-repeat="plan in vm.plans" value="{{plan.id}}">{{plan.content}}</option>
+                </select>
+                <go>if .NeedApp</go>
+                <div class="day-apps" ng-controller="ctrl.day.app">
+                    <div>日志关联到应用：<input type="text" class="form-control" ng-focus="vm.ajax()" ng-model="vm.cappname" readonly style="width:190px;display:inline-block" placeholder="点击选择"/></div>
+                    <div class="apps-dialog" ng-cloak ng-if="vm.open">
+                        <button class="btn btn-sm btn-danger" ng-click="vm.close()">关闭</button>
+                        <input type="text" class="form-control" ng-keyup="vm.filter($event.currentTarget.value)" placeholder="过滤应用"/>
+                        <div>
+                            <span ng-repeat="app in vm.apps" ng-class="{on:app.id==vm.cappid}" data-appid="{{app.id}}" ng-click="vm.select(app.id, app.name)">{{app.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <go>end</go>
+                <div class="day-item">
+                    <textarea style="height:150px;" placeholder="工作内容" class="form-control" ng-model="vm.ccwork.content"></textarea>
+                </div>
+                <div class="day-item flex">
+                    <div class="flex time-box">
+                        <div class="time-h">
+                            <select class="form-control" ng-model="vm.ccwork.startTimeH">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                        </div>
+                        <div class="time-mm">:</div>
+                        <div class="time-i">
+                            <select class="form-control" ng-model="vm.ccwork.startTimeI">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex-one" style="line-height:34px;">到</div>
+                    <div class="flex time-box">
+                        <div class="time-h">
+                            <select class="form-control" ng-model="vm.ccwork.endTimeH">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                        </div>
+                        <div class="time-mm">:</div>
+                        <div class="time-i">
+                            <select class="form-control" ng-model="vm.ccwork.endTimeI">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="day-item">
+                    <select id="select" class="form-control" ng-model="vm.ccwork.status">
+                        <option value="0">完成度</option>
+                        <option value="10">10%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="40">40%</option>
+                        <option value="50">50%</option>
+                        <option value="60">60%</option>
+                        <option value="70">70%</option>
+                        <option value="80">80%</option>
+                        <option value="90">90%</option>
+                        <option value="100">100%</option>
+                    </select>
+                </div>
+                <button class="btn btn-default btn-block" ng-cloak my-tip="vm.ajaxing" ng-click="vm.doAdd()">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-warning" ng-controller="ctrl.plan" style="margin-top:20px;">
+    <div class="panel-heading">计划表</div>
+    <div class="panel-body">
+        <div>
+            <table class="table">
+                <tr>
+                    <th>计划任务</th>
+                    <th style="width:18%">开始日期</th>
+                    <th style="width:18%">结束日期</th>
+                    <th style="width:7%">状态</th>
+                    <th style="width:12%">操作</th>
+                </tr>
+                <tr ng-repeat="plan in vm.plans" ng-cloak>
+                    <td title="{{plan.id}}">{{plan.content}}</td>
+                    <td>{{plan.startDate}}</td>
+                    <td>{{plan.endDate}}</td>
+                    <td>{{plan.status}}%</td>
+                    <td><button class="btn btn-info btn-xs" ng-click="vm.update(plan.id)">编辑</button><button style="margin-left:5px;" class="btn btn-danger btn-xs" ng-click="vm.doDelete(plan.id)">删除</button></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="form-control" ng-model="vm.ccplan.content" placeholder="计划任务" style="margin-bottom:20px;"/></td>
+                    <td><input type="text" class="form-control" ng-model="vm.ccplan.startDate" placeholder="开始日期" my-date data-hm="{{vm.gstart}}" readonly/></td>
+                    <td><input type="text" class="form-control" ng-model="vm.ccplan.endDate" placeholder="结束日期" my-date data-hm="{{vm.gend}}" readonly/></td>
+                    <td colspan="2">
+                        <div class="flex-one" ng-cloak>
+                            <button ng-if="vm.ccplan.id==0" class="btn btn-success btn-block" my-tip="vm.ajaxing" ng-click="vm.doAdd()">新增</button>
+                            <button ng-if="vm.ccplan.id>0" class="btn btn-warning btn-block" my-tip="vm.ajaxing" ng-click="vm.doUpdate()">更新</button>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+
+            <table class="table" ng-cloak>
+                <tr class="plan-old" ng-if="vm.completePlansCount>0">
+                    <td>下面是最近完成的工作任务</td>
+                    <td>开始日期</td>
+                    <td>结束日期</td>
+                    <td>完成时间</td>
+                    <td></td>
+                </tr>
+                <tr class="plan-old" ng-repeat="plan in vm.completePlans">
+                    <td style="width:40%">{{plan.content}}</td>
+                    <td>{{plan.startDate}}</td>
+                    <td>{{plan.endDate}}</td>
+                    <td>{{plan.realDate}}</td>
+                    <td>已完成</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<go>if .Admin</go>
+<div class="panel panel-success" ng-controller="ctrl.day.admin" style="width:900px;margin:20px auto 0;">
+    <div class="panel-heading">管理员调整</div>
+    <div class="panel-body">
+        <div class="">
+            <input type="text" class="form-control" placeholder="工作id" ng-model="vm.sid" style="display:inline;width:100px;"/>
+            <button class="btn btn-warning" my-tip="vm.ajaxing"  ng-click="vm.search()">查找</button>
+        </div>
+        <div class="flex day-admin" ng-if="vm.ccwork.id">
+            <div>
+                <textarea class="form-control" ng-model="vm.ccwork.content"></textarea>
+            </div>
+            <div class="day-admin-right">
+                <div class="day-admin-date">
+                    <input type="text" class="form-control" placeholder="选择日期" my-date readonly ng-model="vm.ccwork.date" data-hm="{{vm.end}}" style="width:150px;"/>
+                    <select class="form-control" ng-model="vm.ccwork.status">
+                        <option value="0">完成度</option>
+                        <option value="10">10%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="40">40%</option>
+                        <option value="50">50%</option>
+                        <option value="60">60%</option>
+                        <option value="70">70%</option>
+                        <option value="80">80%</option>
+                        <option value="90">90%</option>
+                        <option value="100">100%</option>
+                    </select>
+                </div>
+                <div class="flex">
+                    <div class="flex time-box">
+                        <div class="time-h">
+                            <select class="form-control" ng-model="vm.ccwork.startTimeH">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                        </div>
+                        <div class="time-mm">:</div>
+                        <div class="time-i">
+                            <select class="form-control" ng-model="vm.ccwork.startTimeI">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="line-height:34px;margin-right:15px;">到</div>
+                    <div class="flex time-box">
+                        <div class="time-h">
+                            <select class="form-control" ng-model="vm.ccwork.endTimeH">
+                                <option value="00">00</option>
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                            </select>
+                        </div>
+                        <div class="time-mm">:</div>
+                        <div class="time-i">
+                            <select class="form-control" ng-model="vm.ccwork.endTimeI">
+                                <option value="00">00</option>
+                                <option value="05">05</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-info" ng-click="vm.doUpdate()">更新</button><button style="margin-left:5px;" class="btn btn-danger" ng-click="vm.doDelete()">删除</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<go>end</go>
+
+<go>end</go>

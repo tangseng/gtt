@@ -1,0 +1,27 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>公告</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var PageNum = <go>.PageNum</go>;
+</script>
+<div ng-controller="ctrl.gg" class="main-box">
+    <div class="panel panel-default">
+        <div class="panel-heading">部门公告</div>
+        <div class="panel-body" style="padding:15px;">
+
+            <div class="gg-ll" ng-cloak>
+                <div ng-repeat="gg in vm.ggs" class="panel panel-{{gg.class}}">
+                    <div class="panel-heading">{{gg.title}}【{{gg.dateString}}】</div>
+                    <div class="panel-body">
+                        {{gg.desc}}
+                    </div>
+                </div>
+                <button class="btn btn-block btn-success" ng-if="vm.ggs.length>=PageNum" style="width:200px;margin:0 auto;" ng-click="vm.ajax(1)">更多</button>
+            </div>
+            <span ng-if="!vm.ggs.length">暂无</span>
+        </div>
+    </div>
+</div>
+<go>end</go>

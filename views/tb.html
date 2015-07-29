@@ -1,0 +1,78 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>淘宝</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var PageNum = <go>.PageNum</go>;
+</script>
+<div class="panel panel-success main-box" ng-controller="ctrl.tb">
+    <div class="panel-heading">这里面存储常见问题解决方案
+        <span class="tb-open" ng-click="vm.doOpen()" ng-cloak><span ng-if="!vm.open">添加解决方案</span><span ng-if="vm.open">收起下面表单</span></span>
+    </div>
+    <div class="panel-body tb-box" ng-if="vm.open">
+        <div class="flex">
+            <div style="width:100px;margin-right:15px;">
+                <input class="form-control" type="text" placeholder="哪个应用" ng-model="vm.cctb.app"/>
+            </div>
+            <div class="flex-one">
+                <input class="form-control" type="text" placeholder="标题" ng-model="vm.cctb.title"/>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="flex-one">
+                <textarea class="form-control" placeholder="描述" ng-model="vm.cctb.desc"></textarea>
+            </div>
+            <div class="flex-one" style="margin:0 15px;">
+                <textarea class="form-control" placeholder="原因" ng-model="vm.cctb.why"></textarea>
+            </div>
+            <div class="flex-one">
+                <textarea class="form-control" placeholder="解决方案" ng-model="vm.cctb.fix"></textarea>
+            </div>
+        </div>
+        <div class="flex">
+            <div class="flex-one">
+                <input class="form-control" style="width:500px;display:inline;margin-right:15px;" type="text" placeholder="客户" ng-model="vm.cctb.custom"/>
+                <input class="form-control" style="width:120px;display:inline;" type="text" placeholder="日期" my-date readonly ng-model="vm.cctb.dateString"/>
+            </div>
+            <div ng-cloak style="width:100px;">
+                <button ng-if="vm.cctb.id==0" class="btn btn-success btn-block tb-btn" my-tip="vm.ajaxing" ng-click="vm.doAdd()">新增</button>
+                <button ng-if="vm.cctb.id>0" class="btn btn-warning btn-block tb-btn" my-tip="vm.ajaxing" ng-click="vm.doUpdate()">更新</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tb-list">
+        <div class="flex tb-search" style="margin:15px 0;">
+            <div><input type="text" class="form-control" ng-model="vm.shtb.app" placeholder="哪个应用"/></div>
+            <div><input type="text" class="form-control" ng-model="vm.shtb.custom" placeholder="哪个客户"/></div>
+            <div><input type="text" class="form-control" ng-model="vm.shtb.key" placeholder="关键字" style="width:250px;"/></div>
+            <div><button class="btn btn-info btn-warning" ng-click="vm.search()">查询</button></div>
+        </div>
+        <div ng-cloak>
+            <div class="tb-item" ng-repeat="tb in vm.tbs">
+                <div class="flex">
+                    <div class="tb-app tb-each">{{tb.app || "空"}}</div>
+                    <div class="tb-title tb-each">{{tb.title || "空"}}</div>
+                </div>
+                <div class="flex">
+                    <div class="flex-one tb-desc tb-each"><pre>{{tb.desc || "空"}}</pre></div>
+                    <div class="flex-one tb-why tb-each"><pre>{{tb.why || "空"}}</pre></div>
+                    <div class="flex-one tb-fix tb-each"><pre>{{tb.fix || "空"}}</pre></div>
+                </div>
+                <div class="flex">
+                    <div class="tb-custom tb-each">{{tb.custom || "空"}}</div>
+                    <div class="tb-date tb-each">{{tb.dateString || "空"}}</div>
+                    <div class="tb-pname tb-each">{{tb.pname || "空"}}</div>
+                    <div class="tb-option tb-each"><button class="btn btn-info btn-xs" ng-click="vm.update(tb.id)">编辑</button><button class="btn btn-danger btn-xs" ng-click="vm.doDelete(tb.id)" style="margin-left:8px;">删除</button></div>
+                </div>
+            </div>
+        </div>
+        <div class="flex" style="margin:15px 0;text-align:center;">
+            <div class="flex-one"><button class="btn btn-default" ng-if="vm.canP" style="width:200px;" ng-click="vm.prev()">上一页</button></div>
+            <div class="flex-one"><button class="btn btn-default" ng-if="vm.canN" style="width:200px;" ng-click="vm.next()">下一页</button></div>
+        </div>
+    </div>
+</div>
+<go>end</go>

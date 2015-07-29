@@ -1,0 +1,52 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>公告</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var PageNum = <go>.PageNum</go>;
+</script>
+<div ng-controller="ctrl.gg.admin" class="main-box">
+    <div class="panel panel-default">
+        <div class="panel-heading">部门公告</div>
+        <div class="panel-body" style="padding:15px;">
+            <div class="gg-form flex">
+                <div class="flex-one">
+                    <input class="form-control" type="text" placeholder="标题" ng-model="vm.ccgg.title"/>
+                    <div class="" style="margin:15px 0;">
+                        <input class="form-control" style="display:inline;width:120px;margin-right:15px;" type="text" placeholder="日期" my-date readonly ng-model="vm.ccgg.dateString"/>
+                        <select class="form-control" ng-model="vm.ccgg.class" style="display:inline;width:120px;">
+                            <option value="default">default</option>
+                            <option value="info">info</option>
+                            <option value="success">success</option>
+                            <option value="primary">primary</option>
+                            <option value="warning">warning</option>
+                            <option value="danger">danger</option>
+                        </select>
+                    </div>
+                    <div ng-cloak style="width:100px;">
+                        <button ng-if="vm.ccgg.id==0" class="btn btn-success btn-block tb-btn" my-tip="vm.ajaxing" ng-click="vm.doAdd()">新增</button>
+                        <button ng-if="vm.ccgg.id>0" class="btn btn-warning btn-block tb-btn" my-tip="vm.ajaxing" ng-click="vm.doUpdate()">更新</button>
+                    </div>
+                </div>
+                <div class="flex-one" style="margin-left:20px;">
+                    <textarea class="form-control" style="height:130px;" placeholder="描述" ng-model="vm.ccgg.desc"></textarea>
+                </div>
+
+            </div>
+
+            <div class="gg-ll" style="margin-top:30px;" ng-cloak>
+                <div ng-repeat="gg in vm.ggs" class="panel panel-{{gg.class}}">
+                    <div class="panel-heading">{{gg.title}}【{{gg.dateString}}】<span style="float:right;"><button class="btn btn-info btn-xs" ng-click="vm.update(gg.id)">编辑</button><button class="btn btn-danger btn-xs" ng-click="vm.doDelete(gg.id)" style="margin-left:8px;">删除</button></span></div>
+                    <div class="panel-body">
+                        {{gg.desc}}
+                    </div>
+                </div>
+                <button class="btn btn-block btn-success" ng-if="vm.ggs.length>=PageNum" style="width:200px;margin:0 auto;" ng-click="vm.ajax(1)">更多</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<go>end</go>

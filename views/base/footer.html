@@ -1,0 +1,15 @@
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/jquery-ui.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/ui-bootstrap-tpls.min.js"></script>
+<go>if .PageLogin</go>
+<go>else</go>
+<script>
+    var User = <go>.User</go>;
+</script>
+<go>end</go>
+
+<go>range .Script</go>
+<script src="/static/js/<go>.</go>.js"></script>
+<go>end</go>

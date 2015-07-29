@@ -1,0 +1,56 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>应用</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var Apps = <go>.Apps</go>;
+</script>
+<div class="panel panel-info main-box" ng-controller="ctrl.apps">
+    <div class="panel-heading">应用列表（根据开发时间倒序）</div>
+    <div class="panel-body tb-box">
+        <input type="text" class="form-control" ng-blur="vm.search($event.currentTarget.value)" placeholder="应用过滤"/>
+        <div ng-cloak>
+            <div class="app-tab">
+                <span ng-repeat="(year, app) in vm.apps" ng-click="vm.cy(year)" ng-class="{'app-tab-active':vm.cyear==year}">{{year}}&nbsp;&nbsp;({{app.count}})</span>
+            </div>
+            <div class="app-body">
+                <div ng-repeat="(year, appss) in vm.apps" ng-if="vm.cyear==year">
+                    <div ng-repeat="(month, apps) in appss.apps">
+                        <div class="flex app-month-box">
+                            <div class="app-month">{{apps.month}}月份</div>
+                            <div class="app-month-body flex-one">
+                                <div ng-repeat="app in apps.apps" ng-controller="ctrl.app" ng-init="vm.cyear=year" class="flex app-item">
+                                    <ul class="app-info" ng-init="vm.appid=app.id">
+                                        <li class="app-name">{{app.name}}</li>
+                                        <li class="app-ct">创建：{{app.create_time * 1000 | date:'yyyy-MM-dd'}}</li>
+                                        <li class="app-version">版本：{{app.version}}</li>
+                                        <!--<li class="app-add"><button class="btn btn-sm btn-block btn-warning" ng-click="vm.doOpen()">查看/增加开发日志</button></li>-->
+                                    </ul>
+                                    <div class="app-log flex-one" ng-if="vm.open">
+                                        <div class="flex">
+                                            <div class="flex-one"><textarea class="form-control" ng-model="vm.cclog.desc" ng-focus="vm.foucs()" placeholder="输入最近对该应用功能的增加或者bug的修复"></textarea></div>
+                                            <div class="app-btn"><button class="btn btn-info btn-block" my-tip="vm.ajaxing" ng-click="vm.doAdd()">增加</button></div>
+                                        </div>
+                                        <ul class="app-logs">
+                                            <li ng-repeat="log in vm.logs">
+                                                {{log.pname}}
+                                                【{{log.time * 1000 | date:'yyyy-MM-dd'}}】
+                                                <span>{{log.desc}}</span>
+                                            </li>
+                                        </ul>
+                                        <div class="flex" ng-if="vm.canP || vm.canN" style="margin:15px 0;text-align:center;">
+                                            <div class="flex-one"><button class="btn btn-default" ng-if="vm.canP" style="width:200px;" ng-click="vm.prev()">上一页</button></div>
+                                            <div class="flex-one"><button class="btn btn-default" ng-if="vm.canN" style="width:200px;" ng-click="vm.next()">下一页</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<go>end</go>

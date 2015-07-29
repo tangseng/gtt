@@ -1,0 +1,45 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>列表</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+var Persons = <go>.Persons</go>;
+var Group = <go>.Group</go>;
+var Y = <go>.Y</go>;
+var M = <go>.M</go>;
+var D = <go>.D</go>;
+</script>
+<div class="panel panel-success main-box" ng-controller="ctrl.month">
+    <div class="panel-heading"><span ng-cloak>下图是 {{vm.qian}} 到 {{vm.hou}}</span><span style="float:right;">（想查看之前月份的数据可以在url后面加上 ?m=月份）</span></div>
+    <div class="panel-body">
+        <div class="flex">
+            <div class="ll-person">
+                <div ng-repeat="gperson in vm.persons">
+                    <div class="pp-item" ng-repeat="person in gperson" ng-cloak>
+                        <span class="person-color" style="background:{{person.color}}"></span>
+                        <span>{{person.name}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-one">
+                <div class="ll-box">
+                    <div class="ll-head" ng-cloak>
+                        <span class="ll-day" ng-repeat="day in vm.days" ng-class="{today:day.today==1}" >{{day.num}}</span>
+                    </div>
+                    <div class="ll-body" ng-cloak>
+                        <div class="flex ll-mask">
+                            <div ng-repeat="day in vm.days" class="ll-bg"></div>
+                        </div>
+                        <div class="ll-plan">
+                            <div ng-repeat="plan in vm.plans" days="vm.days" persons="vm.tmpPersons" class="plan-item" my-plan data-uid="{{plan.uid}}" data-id="{{plan.id}}" data-start="{{plan.startTime}}" data-end="{{plan.endTime}}" data-real="{{plan.realTime}}" data-color="{{plan.color}}" data-status="{{plan.status}}" data-title="{{plan.content}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<go>end</go>

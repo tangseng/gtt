@@ -1,0 +1,77 @@
+<go>template "base/base.html" .</go>
+<go>define "head"</go>
+<title>绩效</title>
+<go>end</go>
+<go>define "body"</go>
+<script>
+    var Persons = <go>.Persons</go>;
+    var Y = <go>.Y</go>;
+    var M = <go>.M</go>;
+    var D = <go>.D</go>;
+</script>
+<div ng-controller="ctrl.jx.admin" class="main-box">
+
+    <div class="jx-person" ng-cloak>
+        <span ng-repeat="(id, person) in vm.persons" ng-class="{active:vm.uid==id}" ng-click="vm.select(id)" value="{{id}}">{{person}}</span>
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">周绩效<span ng-cloak>【{{vm.qian}} 到 {{vm.hou}}】</span><a href="/jx/xx" style="margin-left:20px;">看看大家的</a><span style="float:right;">（想查看之前月份的数据可以在url后面加上 ?m=月份）</span></div>
+        <div class="panel-body jx-box" my-jx data-inited="vm.inited" data-jxday="{{vm.ccJxday}}">
+            <ul class="nav nav-tabs">
+                <li ng-repeat="day in vm.days" ng-cloak ng-class="{init:day.active, shangban:day.shangban}" title="{{day.date}}" data-y="{{day.y}}" data-m="{{day.m}}" data-d="{{day.d}}"><a href="#day-{{day.y}}-{{day.m}}-{{day.d}}" data-toggle="tab">{{day.num}}</a></li>
+            </ul>
+            <div class="tab-content">
+                <table class="table" ng-if="vm.ccJxday.length>0">
+                    <tr>
+                        <th>工作内容</th>
+                        <th style="width:150px;">日期（提交）</th>
+                        <th style="width:75px;">开始时间</th>
+                        <th style="width:75px;">结束时间</th>
+                        <th style="width:75px;">时长</th>
+                        <th style="width:60px;">完成度</th>
+                        <th style="width:120px;">分数</th>
+                    </tr>
+                    <tr ng-repeat="work in vm.ccJxday" ng-cloak>
+                        <td title="{{work.id}}">{{work.content}}</td>
+                        <td>{{work.date}}</td>
+                        <td>{{work.start}}</td>
+                        <td>{{work.end}}</td>
+                        <td>{{work.duration}}</td>
+                        <td>{{work.status}}%</td>
+                        <td><input type="text" style="width:50px;display:inline;margin-right:5px;" class="form-control" value="{{work.score}}"/><button class="btn btn-warning" my-jx-score data-id="{{work.id}}">OK</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel-heading">月常规绩效</div>
+        <div class="panel-body" ng-controller="ctrl.mjx">
+            <form>
+                <div class="flex">
+                    <div class="flex-one"><textarea class="form-control" style="height:80px;" ng-model="vm.ccmjx.content" placeholder="绩效内容"></textarea></div>
+                    <div style="width:150px;margin:0 20px;">
+                        <input type="text" class="form-control" placeholder="日期" my-date readonly ng-model="vm.ccmjx.date" style="margin-bottom:10px;"/>
+                        <input type="text" class="form-control" placeholder="分数" ng-model="vm.ccmjx.score"/>
+                    </div>
+                    <div style="width:100px" ng-cloak>
+                        <button ng-if="vm.ccmjx.id==0" class="btn btn-success btn-block" my-tip="vm.ajaxing" ng-click="vm.doAdd()" style="height:78px;">新增</button>
+                        <button ng-if="vm.ccmjx.id>0" class="btn btn-warning btn-block" my-tip="vm.ajaxing" ng-click="vm.doUpdate()" style="height:78px;">更新</button>
+                    </div>
+                </div>
+            </form>
+            <table class="table" ng-cloak ng-if="vm.mjxs.length>0" style="margin-top:15px;">
+                <tr><th style="width:150px;">日期</th><th>绩效内容</th><th style="width:50px;">分数</th><th style="width:100px;">操作</th></tr>
+                <tr ng-repeat="mjx in vm.mjxs">
+                    <td>{{mjx.date}}</td>
+                    <td>{{mjx.content}}</td>
+                    <td>{{mjx.score}}</td>
+                    <td><button class="btn btn-info btn-xs" ng-click="vm.update(mjx.id)">编辑</button><button class="btn btn-danger btn-xs" ng-click="vm.doDelete(mjx.id)" style="margin-left:8px;">删除</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<go>end</go>

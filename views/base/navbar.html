@@ -1,0 +1,19 @@
+<go>if .PageLogin</go>
+<go>else</go>
+<div class="my-nav">
+    <span class="label label-warning"><go>.User.Name</go><a href="/login/loginOut">退出</a></span>
+    <ul class="nav nav-pills nav-stacked" role="tablist" style="margin-top:30px;">
+        <li role="presentation" <go>if .PageDay</go>class="active"<go>end</go> ><a href="/day">今日</a></li>
+        <li role="presentation" <go>if .PageMonth</go>class="active"<go>end</go> ><a href="/month">列表</a></li>
+        <li role="presentation" <go>if .PageJx</go>class="active"<go>end</go> ><a href="/jx">绩效</a></li>
+        <go>if .NeedApp</go>
+        <li role="presentation" <go>if .PageApp</go>class="active"<go>end</go> ><a href="/app">应用</a></li>
+        <go>end</go>
+        <li role="presentation" <go>if .PageTb</go>class="active"<go>end</go> ><a href="/tb">淘宝</a></li>
+        <li role="presentation" <go>if .PageGg</go>class="active"<go>end</go> ><a href="/gg">公告</a></li>
+        <go>if .Can</go>
+        <li role="presentation" <go>if .PagePerson</go>class="active"<go>end</go> ><a href="/person">部门</a></li>
+        <go>end</go>
+    </ul>
+</div>
+<go>end</go>
